@@ -1,0 +1,2029 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DO I DO | Cafe</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================
+   GENERAL
+========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --wine: #350616;
+    --wine-light: #5a2638;
+    --cream: #eee7d9;
+    --gold: #c7a477;
+    --ease: cubic-bezier(.2,.75,.25,1);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    direction: ltr;
+    overflow-x: hidden;
+
+    background:
+        radial-gradient(ellipse at 12% 18%, rgba(133,53,79,.18), transparent 32%),
+        radial-gradient(ellipse at 88% 62%, rgba(199,164,119,.08), transparent 30%),
+        var(--wine);
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    opacity: .12;
+
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+}
+
+::selection {
+    background: var(--gold);
+    color: var(--wine);
+}
+
+/* =========================================
+   SCROLL PROGRESS
+========================================= */
+
+.scroll-progress {
+    position: fixed;
+    inset: 0 0 auto;
+    height: 3px;
+    z-index: 2000;
+    background: rgba(238,231,217,.12);
+}
+
+.scroll-progress span {
+    display: block;
+    height: 100%;
+    width: 0;
+
+    background: linear-gradient(90deg, #a66a73, var(--gold));
+    box-shadow: 0 0 12px rgba(199,164,119,.65);
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 25px 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    z-index: 1000;
+    background: transparent;
+
+    transition:
+        padding .4s var(--ease),
+        background .4s,
+        box-shadow .4s;
+}
+
+.header.scrolled {
+    padding: 15px 45px;
+    background: rgba(35,4,14,.78);
+    box-shadow: 0 10px 35px rgba(0,0,0,.18);
+    border-bottom: 1px solid rgba(238,231,217,.08);
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.header-logo {
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    letter-spacing: 3px;
+    text-decoration: none;
+
+    transition: letter-spacing .35s, opacity .3s;
+}
+
+.header-logo:hover {
+    letter-spacing: 5px;
+    opacity: .8;
+}
+
+/* LANGUAGE */
+
+.language-menu {
+    position: relative;
+    font-family: Arial, sans-serif;
+}
+
+.language-btn {
+    background: transparent;
+    color: white;
+    border: none;
+    font-size: 13px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    padding: 10px;
+
+    transition: opacity .25s, transform .25s;
+}
+
+.language-btn:hover {
+    opacity: .7;
+    transform: translateY(-2px);
+}
+
+.language-options {
+    display: none;
+    position: absolute;
+    top: 35px;
+    right: 0;
+    min-width: 65px;
+    padding: 7px;
+    text-align: center;
+
+    border: 1px solid rgba(238,231,217,.18);
+    border-radius: 12px;
+    background: rgba(35,4,14,.94);
+
+    backdrop-filter: blur(14px);
+    box-shadow: 0 15px 35px rgba(0,0,0,.25);
+}
+
+.language-options.show {
+    display: block;
+}
+
+.language-options button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+
+    background: transparent;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+
+    transition: background .2s;
+}
+
+.language-options button:hover {
+    background: rgba(238,231,217,.12);
+}
+
+/* =========================================
+   HERO VIDEO
+========================================= */
+
+.hero-video {
+    width: 100%;
+    height: min(100svh, 850px);
+    min-height: 560px;
+
+    object-fit: cover;
+    object-position: center;
+
+    display: block;
+    border: none;
+    filter: saturate(.88);
+}
+
+/* =========================================
+   STORY SECTION
+========================================= */
+
+.story-section {
+    width: 90%;
+    max-width: 1400px;
+    margin: 150px auto;
+
+    display: flex;
+    align-items: center;
+    gap: 55px;
+
+    direction: ltr;
+    position: relative;
+}
+
+.story-image {
+    width: 44%;
+    height: 675px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: visible;
+}
+
+.story-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+
+    position: relative;
+    z-index: 2;
+
+    filter: saturate(.82);
+    transition: transform .8s var(--ease), filter .6s;
+}
+
+.story-image::after {
+    content: "";
+    position: absolute;
+    inset: 18px -18px -18px 18px;
+
+    border: 1px solid rgba(199,164,119,.55);
+    pointer-events: none;
+    z-index: 3;
+
+    transition: transform .6s var(--ease);
+}
+
+.story-image:hover::after {
+    transform: translate(7px,7px);
+}
+
+.story-image:hover img {
+    transform: scale(1.025);
+    filter: saturate(1.08);
+}
+
+.story-content {
+    flex: 1;
+    min-width: 0;
+    color: #fff;
+    font-family: 'Cairo', sans-serif;
+    text-align: left;
+}
+
+.story-label {
+    color: #ffffff;
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+}
+
+.story-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    font-weight: 500;
+    margin: 20px 0 25px;
+    color: #fff;
+    letter-spacing: -.02em;
+}
+
+.story-content p {
+    font-family: 'Cairo', sans-serif;
+    font-size: 12px;
+    line-height: 2.1;
+    color: #ffffff;
+    margin-bottom: 18px;
+    font-weight: 300;
+}
+
+/* =========================================
+   SECTION TITLES
+========================================= */
+
+.section-title {
+    font-family: 'Cormorant Garamond', serif !important;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 58px;
+    line-height: .85;
+
+    text-align: left;
+    direction: ltr;
+    color: #ffffff;
+
+    width: 84%;
+    margin: 100px auto 60px;
+    position: relative;
+
+    text-wrap: balance;
+}
+
+.section-title::after {
+    content: "";
+    display: block;
+    width: 74px;
+    height: 1px;
+    margin-top: 26px;
+
+    background: var(--gold);
+    opacity: .8;
+}
+
+.section-title-center {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: .85;
+
+    text-align: center;
+    direction: ltr;
+    color: #ffffff;
+
+    width: 84%;
+    margin: 100px auto 60px;
+
+    text-wrap: balance;
+}
+
+/* =========================================
+   CATEGORY TITLES
+========================================= */
+
+.category-title {
+    color: #fff;
+    text-align: left;
+    direction: ltr;
+    width: 84%;
+    margin: 60px auto 25px;
+
+    font-family: 'Playfair Display', serif;
+}
+
+/* =========================================
+   DESSERT AND SPECIAL DRINK CARDS
+========================================= */
+
+.three-images {
+    width: fit-content;
+    max-width: 95%;
+    margin: 75px auto 120px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 250px);
+    gap: 35px 15px;
+    justify-content: center;
+}
+
+.dessert-card {
+    width: 250px;
+    position: relative;
+    overflow: hidden;
+}
+
+.dessert-card img {
+    width: 250px;
+    height: 350px;
+    object-fit: cover;
+    display: block;
+
+    transition: transform .8s var(--ease);
+}
+
+.dessert-card:hover img {
+    transform: scale(1.045);
+}
+
+.card-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    direction: rtl;
+    padding: 14px 2px;
+    gap: 12px;
+
+    color: #fff;
+    font-family: 'Cairo', sans-serif;
+}
+
+.your-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    transition: color .4s;
+}
+
+.dessert-card:hover .your-text {
+    color: var(--gold);
+}
+
+/* =========================================
+   MENU SECTIONS
+========================================= */
+
+.hot-menu {
+    width: 96%;
+    max-width: 900px;
+    margin: 80px auto;
+
+    background: #350616;
+    padding: 25px 0;
+
+    color: #eee7d9;
+    text-align: left;
+}
+
+.menu-heading {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    direction: ltr;
+    gap: 25px;
+    margin-bottom: 30px;
+
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    letter-spacing: 4px;
+}
+
+.menu-heading div {
+    flex: 1;
+    height: 1px;
+
+    background: linear-gradient(90deg, rgba(199,164,119,.7), transparent);
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.menu-card {
+    border: 1px solid #5a2638;
+    border-radius: 10px;
+
+    padding: 17px 20px;
+    min-height: 128px;
+
+    background: #350616;
+    position: relative;
+    overflow: hidden;
+
+    transition:
+        border-color .4s,
+        background .4s;
+}
+
+.menu-card:hover {
+    border-color: var(--gold);
+    background: #401020;
+}
+
+.menu-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-style: italic;
+
+    margin: 0 0 3px;
+    color: #eee7d9;
+    position: relative;
+}
+
+.menu-card h4 {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    margin: 5px 0;
+    color: #eee7d9;
+}
+
+.menu-card p {
+    color: #fff1d9;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+    position: relative;
+
+    transition: color .3s;
+}
+
+.menu-card:hover p {
+    color: var(--gold);
+}
+
+/* =========================================
+   CREATIONS
+========================================= */
+
+.creations-section {
+    width: 90%;
+    max-width: 1700px;
+    margin: 25px auto 100px;
+
+    position: relative;
+    direction: ltr;
+    overflow: hidden;
+}
+
+.creations-track {
+    display: flex;
+    gap: 12px;
+
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+.creations-track::-webkit-scrollbar {
+    display: none;
+}
+
+.creation-video {
+    flex: 0 0 calc(25% - 9px);
+    height: 460px;
+
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+
+    background: #350616;
+
+    transition:
+        transform .5s var(--ease),
+        filter .5s;
+
+    filter: saturate(.85);
+}
+
+.creation-video:hover {
+    transform: scale(.985);
+    filter: saturate(1.1);
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.footer-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+
+    width: 100%;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.location-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 280px;
+    min-height: 46px;
+
+    border-radius: 50px;
+    background: #eee7d9;
+    color: #766b62;
+
+    text-decoration: none;
+    font-size: 13px;
+
+    transition: background .3s, transform .3s;
+}
+
+.location-btn:hover {
+    background: var(--gold);
+    transform: translateY(-3px);
+}
+
+.social-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.social-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 182px;
+    min-height: 46px;
+
+    border: 1px solid #eee7d9;
+    border-radius: 50px;
+
+    background: transparent;
+    color: #eee7d9;
+
+    text-decoration: none;
+    font-size: 13px;
+
+    transition:
+        background .3s,
+        color .3s,
+        transform .3s;
+}
+
+.social-btn:hover {
+    background: #eee7d9;
+    color: #350616;
+    transform: translateY(-3px);
+}
+
+/* =========================================
+   BACK TO TOP
+========================================= */
+
+.back-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1200;
+
+    width: 43px;
+    height: 43px;
+
+    border: 1px solid rgba(238,231,217,.35);
+    border-radius: 50%;
+
+    color: var(--cream);
+    background: rgba(35,4,14,.78);
+
+    font-size: 22px;
+    cursor: pointer;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+
+    transition: .3s var(--ease);
+
+    backdrop-filter: blur(10px);
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    background: var(--cream);
+    color: var(--wine);
+}
+
+/* =========================================
+   SCROLL REVEAL ANIMATIONS
+========================================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(38px);
+
+    filter: blur(5px);
+
+    transition:
+        opacity .9s var(--ease),
+        transform .9s var(--ease),
+        filter .9s var(--ease);
+
+    transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+/* IMAGE REVEAL */
+
+.dessert-card.reveal {
+    transform: translateY(35px);
+}
+
+.dessert-card.reveal.is-visible {
+    transform: translateY(0);
+}
+
+/* MENU CARD REVEAL */
+
+.menu-card.reveal {
+    transform: translateY(30px);
+}
+
+.menu-card.reveal.is-visible {
+    transform: translateY(0);
+}
+
+/* VIDEO REVEAL */
+
+.creation-video.reveal {
+    transform: translateY(30px) scale(.98);
+}
+
+.creation-video.reveal.is-visible {
+    transform: translateY(0) scale(1);
+}
+
+/* =========================================
+   ARABIC MODE
+========================================= */
+
+body.arabic,
+body.arabic * {
+    font-family: 'Tajawal', sans-serif !important;
+    font-weight: 300;
+}
+
+body.arabic {
+    direction: rtl;
+}
+
+body.arabic .header {
+    flex-direction: row-reverse;
+}
+
+body.arabic .header-logo {
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 400;
+}
+
+body.arabic .language-options {
+    right: auto;
+    left: 0;
+}
+
+body.arabic .story-section {
+    direction: rtl;
+}
+
+body.arabic .story-content {
+    text-align: right;
+}
+
+body.arabic .story-content h2,
+body.arabic .story-content h3 {
+    font-style: normal;
+}
+
+body.arabic .section-title,
+body.arabic .section-title-center {
+    direction: rtl;
+    text-align: center;
+    font-style: normal;
+    line-height: 1.8;
+    font-weight: 300;
+}
+
+body.arabic .section-title {
+    text-align: right;
+}
+
+body.arabic .category-title {
+    direction: rtl;
+    text-align: right;
+}
+
+body.arabic .menu-heading {
+    direction: rtl;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: right;
+    letter-spacing: 0;
+}
+
+body.arabic .menu-heading span {
+    text-align: right;
+}
+
+body.arabic .menu-heading div {
+    background: linear-gradient(270deg, rgba(199,164,119,.7), transparent);
+}
+
+body.arabic .hot-menu {
+    text-align: right;
+}
+
+body.arabic .menu-card {
+    text-align: right;
+}
+
+body.arabic .card-info {
+    direction: rtl;
+}
+
+body.arabic .your-text {
+    font-style: normal;
+}
+
+body.arabic .footer-buttons {
+    direction: rtl;
+}
+
+body.arabic .story-image::after {
+    inset: 18px 18px -18px -18px;
+}
+
+body.arabic .story-image:hover::after {
+    transform: translate(-7px,7px);
+}
+
+body.arabic .back-to-top {
+    right: auto;
+    left: 24px;
+}
+
+/* =========================================
+   MOBILE RESPONSIVE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .header {
+        padding: 20px;
+    }
+
+    .header.scrolled {
+        padding: 13px 20px;
+    }
+
+    .header-logo {
+        font-size: 17px;
+    }
+
+    /* MOBILE HERO VIDEO */
+.hero-video {
+    width: 350px !important;
+    max-width: 350px !important;
+
+    height: auto !important;
+    min-height: 0 !important;
+
+    aspect-ratio: 350 / 814 !important;
+    
+
+    display: block;
+    margin: 0 auto !important;
+}
+
+    /* STORY */
+
+    .story-section {
+        width: 92%;
+        max-width: 100%;
+
+        margin: 65px auto;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        gap: 25px;
+    }
+
+    .story-image {
+        width: 44%;
+        height: 300px;
+
+        flex: 0 0 44%;
+        min-width: 0;
+
+        overflow: visible;
+    }
+
+    .story-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .story-image::after {
+        inset: 10px -10px -10px 10px;
+    }
+
+    .story-content {
+        width: auto;
+        flex: 1;
+        min-width: 0;
+    }
+
+    .story-label {
+        font-size: 9px;
+        letter-spacing: 1px;
+    }
+
+    .story-content h2 {
+        font-size: 19px;
+        line-height: 1.3;
+        margin: 8px 0 12px;
+        overflow-wrap: break-word;
+    }
+
+    .story-content p {
+        font-size: 9px;
+        line-height: 1.85;
+        margin-bottom: 5px;
+        overflow-wrap: break-word;
+    }
+
+    body.arabic .story-section {
+        flex-direction: row-reverse;
+    }
+
+    body.arabic .story-content {
+        text-align: right;
+    }
+
+    body.arabic .story-image::after {
+        inset: 10px 10px -10px -10px;
+    }
+
+    /* TITLES */
+
+    .section-title {
+        font-size: 30px;
+        line-height: 1.1;
+        margin: 55px auto 30px;
+    }
+
+    .section-title-center {
+        font-size: 15px;
+        line-height: 1.7;
+        margin: 55px auto 30px;
+    }
+
+    .category-title {
+        font-size: 16px;
+        margin: 35px auto 15px;
+    }
+
+    /* DESSERT AND SPECIAL DRINKS */
+
+    .three-images {
+        width: 92%;
+        max-width: 92%;
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 20px 12px;
+        margin: 45px auto 60px;
+    }
+
+    .dessert-card {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .dessert-card img {
+        width: 100%;
+        height: auto;
+
+        aspect-ratio: .72;
+        object-fit: cover;
+    }
+
+    .card-info {
+        padding: 7px 1px;
+        gap: 3px;
+        font-size: 9px;
+    }
+
+    .your-text {
+        font-size: 11px;
+    }
+
+    /* DRINK MENUS */
+
+    .hot-menu {
+        width: 94%;
+        margin: 40px auto;
+        padding: 12px 0;
+    }
+
+    .menu-heading {
+        gap: 12px;
+        margin-bottom: 20px;
+        font-size: 11px;
+    }
+
+    .menu-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .menu-card {
+        min-width: 0;
+        min-height: 85px;
+        padding: 13px 10px;
+    }
+
+    .menu-card h3 {
+        font-size: 19px;
+    }
+
+    .menu-card h4 {
+        font-size: 11px;
+    }
+
+    .menu-card p {
+        font-size: 10px;
+    }
+
+    /* CREATIONS VIDEOS */
+
+    .creations-section {
+        width: 94%;
+    }
+
+    .creations-track {
+        gap: 7px;
+    }
+
+    .creation-video {
+        flex: 0 0 calc(50% - 6px);
+        height: 300px;
+    }
+
+    /* FOOTER */
+
+    .footer-buttons {
+        gap: 7px;
+        margin: 20px auto;
+        padding: 0 10px;
+    }
+
+    .location-btn {
+        width: 70%;
+    }
+
+    .social-buttons {
+        gap: 10px;
+    }
+
+    .social-btn {
+        width: 44%;
+        font-size: 11px;
+    }
+
+    /* BACK TO TOP */
+
+    .back-to-top {
+        bottom: 16px;
+        right: 16px;
+        width: 39px;
+        height: 39px;
+    }
+
+    body.arabic .back-to-top {
+        right: auto;
+        left: 16px;
+    }
+}
+
+/* =========================================
+   EXTRA SMALL PHONES
+========================================= */
+
+@media (max-width: 380px) {
+
+    .story-section {
+        gap: 9px;
+    }
+
+    .story-image {
+        width: 42%;
+        flex-basis: 42%;
+        height: 240px;
+    }
+
+    .story-content h2 {
+        font-size: 17px;
+    }
+
+    .story-content p {
+        font-size: 8px;
+        line-height: 1.8;
+    }
+
+    .story-label {
+        font-size: 8px;
+    }
+
+    .your-text {
+        font-size: 10px;
+    }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+        filter: none;
+    }
+}
+
+
+
+
+
+
+
+
+
+/* REPEAT SCROLL ANIMATIONS */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(45px);
+    filter: blur(5px);
+    transition:
+        opacity .9s ease,
+        transform .9s ease,
+        filter .9s ease;
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+/* إعادة ضبط الحركة عند الخروج */
+.reveal:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(45px);
+    filter: blur(5px);
+}
+
+
+
+
+
+
+
+
+
+/* ظهور الكاردات والفيديوهات بالتتابع */
+.dessert-card,
+.menu-card,
+.creations-section video {
+    opacity: 0;
+    transform: translateY(35px);
+    filter: blur(5px);
+    transition:
+        opacity .8s ease,
+        transform .8s ease,
+        filter .8s ease;
+}
+
+.dessert-card.is-visible,
+.menu-card.is-visible,
+.creations-section video.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+
+
+
+
+
+
+
+
+
+
+/* إلغاء حركة التكبير عند لمس أو تمرير الماوس على الكارد */
+.dessert-card,
+.menu-card {
+    scale: 1 !important;
+}
+
+.dessert-card:hover,
+.dessert-card:active,
+.menu-card:hover,
+.menu-card:active {
+    transform: translateY(0) !important;
+    scale: 1 !important;
+}
+
+/* منع تكبير الصور داخل الكارد */
+.dessert-card img,
+.menu-card img {
+    transform: none !important;
+}
+
+.dessert-card:hover img,
+.menu-card:hover img {
+    transform: none !important;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SCROLL PROGRESS -->
+
+<div class="scroll-progress" aria-hidden="true">
+    <span id="scrollProgress"></span>
+</div>
+
+<!-- BACK TO TOP -->
+
+<button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+<!-- HEADER -->
+
+<header class="header">
+
+    <a href="#" class="header-logo">DO I DO</a>
+
+    <div class="language-menu">
+
+        <button class="language-btn" onclick="toggleLanguageMenu()">
+            <span id="currentLanguage">EN</span> ⌄
+        </button>
+
+        <div class="language-options" id="languageOptions">
+            <button onclick="changeLanguage('ar')">AR</button>
+            <button onclick="changeLanguage('en')">EN</button>
+        </div>
+
+    </div>
+
+</header>
+
+<!-- HERO VIDEO -->
+
+<video class="hero-video" autoplay muted loop playsinline>
+
+    <source src="photo/video_2026-11-20_10-10-44.mp4" type="video/mp4">
+
+</video>
+
+<!-- SEATING INSTRUCTIONS -->
+
+<h2 class="section-title-center"
+    data-en="WELCOME TO THE SEATING AREA. WE HOPE YOU WILL ADHERE TO THE FOLLOWING INSTRUCTIONS TO ENSURE YOUR COMFORT AND THE COMFORT OF EVERYONE."
+    data-ar="نرحب بكم في مساحة الجلوس، ونأمل منكم الالتزام بالتعليمات التالية لضمان راحتكم وراحة الجميع.">
+
+    WELCOME TO THE SEATING AREA. WE HOPE YOU WILL ADHERE TO THE FOLLOWING INSTRUCTIONS TO ENSURE YOUR COMFORT AND THE COMFORT OF EVERYONE.
+
+</h2>
+
+<h2 class="section-title-center"
+    data-en="• Sitting time: 45 minutes maximum<br><br>• Wearing shorts is prohibited<br><br>• Bringing outside food is prohibited<br><br>• Children aged 10 and above are allowed"
+    data-ar="• مدة الجلوس: 45 دقيقة كحد أقصى<br><br>• يمنع ارتداء الملابس القصيرة<br><br>• يمنع إدخال الأطعمة من الخارج<br><br>• يسمح بدخول الأطفال بعمر 10 سنوات فما فوق">
+
+    • Sitting time: 45 minutes maximum<br><br>
+    • Wearing shorts is prohibited<br><br>
+    • Bringing outside food is prohibited<br><br>
+    • Children aged 10 and above are allowed
+
+</h2>
+
+<!-- STORY -->
+
+<section class="story-section">
+
+    <div class="story-image">
+        <img src="photo/image copy 12.png" alt="DO I DO">
+    </div>
+
+    <div class="story-content">
+
+        <span class="story-label">DO I DO</span>
+
+        <h2 data-en="YES, GOOD VIBES."
+            data-ar="نعم، أجواء جميلة.">
+
+            YES, GOOD VIBES.
+
+        </h2>
+
+        <p
+            data-en="Coffee is more than just a drink—it's a daily ritual that awakens the senses and brings people together. From the rich aroma of freshly ground beans to the smooth, comforting taste of a perfectly brewed cup, coffee transforms ordinary moments into something special. Whether you enjoy a bold espresso, a creamy latte, or a refreshing cold brew, every sip tells a story of passion, craftsmanship, and love for the art of coffee. At our café, we're dedicated to making each cup a moment of joy and connection."
+            data-ar="القهوة ليست مجرد مشروب، بل هي طقس يومي يوقظ الحواس ويجمع الناس. من رائحة حبوب القهوة الطازجة إلى مذاق القهوة المحضّرة بإتقان، تجعل القهوة اللحظات العادية أكثر تميزاً. سواء كنت تفضل الإسبريسو الغني، أو اللاتيه الكريمي، أو القهوة الباردة المنعشة، فإن كل رشفة تحكي قصة شغف وإبداع وحب لفن القهوة. في مقهانا، نحرص على أن يكون كل كوب لحظة من المتعة والتواصل.">
+
+            Coffee is more than just a drink—it's a daily ritual that awakens the senses and brings people together. From the rich aroma of freshly ground beans to the smooth, comforting taste of a perfectly brewed cup, coffee transforms ordinary moments into something special. Whether you enjoy a bold espresso, a creamy latte, or a refreshing cold brew, every sip tells a story of passion, craftsmanship, and love for the art of coffee. At our café, we're dedicated to making each cup a moment of joy and connection.
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- MAIN TITLE -->
+
+<h1 class="section-title"
+    data-en="Where indulgence,<br>becomes art."
+    data-ar="حيث تتحول المتعة،<br>إلى فن.">
+
+    Where indulgence,
+    <br>
+    becomes art.
+
+</h1>
+
+<!-- HOT DRINK -->
+
+<section class="hot-menu">
+
+    <div class="menu-heading">
+        <span data-en="HOT DRINK" data-ar="المشروبات الساخنة">HOT DRINK</span>
+        <div></div>
+    </div>
+
+    <div class="menu-grid">
+
+        <div class="menu-card">
+            <h3 data-en="Flat White" data-ar="فلات وايت">Flat White</h3>
+            <br>
+            <p>16 SAR</p>
+        </div>
+
+        <div class="menu-card">
+            <h3 data-en="Hot Latte" data-ar="لاتيه ساخن">Hot Latte</h3>
+            <br>
+            <p>17 SAR</p>
+        </div>
+
+        <div class="menu-card">
+            <h3 data-en="Cappuccino" data-ar="كابتشينو">Cappuccino</h3>
+            <br>
+            <p>18 SAR</p>
+        </div>
+
+        <div class="menu-card">
+            <h3 data-en="Cortado" data-ar="كورتادو">Cortado</h3>
+            <br>
+            <p>15 SAR</p>
+        </div>
+
+        <div class="menu-card">
+            <h3 data-en="Americano" data-ar="أمريكانو">Americano</h3>
+            <br>
+            <p>15 SAR</p>
+        </div>
+
+        <div class="menu-card">
+            <h3 data-en="Espresso" data-ar="إسبريسو">Espresso</h3>
+            <br>
+            <p>11 SAR</p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- DRIP DRINK -->
+
+<section class="hot-menu">
+
+    <div class="menu-heading">
+        <span data-en="DRIP DRINK" data-ar="القهوة المقطرة">DRIP DRINK</span>
+        <div></div>
+    </div>
+
+    <div class="menu-grid">
+
+        <div class="menu-card">
+            <h3 data-en="Coffee of the Day" data-ar="قهوة اليوم">Coffee of the Day</h3>
+            <h4 data-en="Small" data-ar="صغير">Small</h4>
+            <p>13 SAR</p>
+        </div>
+
+        <div class="menu-card">
+            <h3 data-en="Coffee of the Day" data-ar="قهوة اليوم">Coffee of the Day</h3>
+            <h4 data-en="Big" data-ar="كبير">Big</h4>
+            <p>16 SAR</p>
+        </div>
+
+        <div class="menu-card">
+            <h3 data-en="Iced Coffee Drip" data-ar="قهوة مقطرة باردة">Iced Coffee Drip</h3>
+            <br>
+            <p>23 SAR</p>
+        </div>
+
+        <div class="menu-card">
+            <h3 data-en="V60 Coffee" data-ar="قهوة V60">V60 Coffee</h3>
+            <br>
+            <p>19 SAR</p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ICE DRINK -->
+
+<section class="hot-menu">
+
+    <div class="menu-heading">
+        <span data-en="ICE DRINK" data-ar="المشروبات الباردة">ICE DRINK</span>
+        <div></div>
+    </div>
+
+    <div class="menu-grid">
+
+        <div class="menu-card">
+            <h3 data-en="Iced Hibiscus" data-ar="كركديه بارد">Iced Hibiscus</h3>
+            <br>
+            <p>22 SAR</p>
+        </div>
+
+        <div class="menu-card">
+            <h3 data-en="Iced Spanish Latte" data-ar="سبانيش لاتيه بارد">Iced Spanish Latte</h3>
+            <br>
+            <p>21 SAR</p>
+        </div>
+
+        <div class="menu-card">
+            <h3 data-en="Iced Americano" data-ar="أمريكانو بارد">Iced Americano</h3>
+            <br>
+            <p>16 SAR</p>
+        </div>
+
+        <div class="menu-card">
+            <h3 data-en="Iced Latte" data-ar="لاتيه بارد">Iced Latte</h3>
+            <br>
+            <p>20 SAR</p>
+        </div>
+
+        <div class="menu-card">
+            <h3 data-en="Iced Freddo" data-ar="فريدو بارد">Iced Freddo</h3>
+            <br>
+            <p>18 SAR</p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- SWEET DO -->
+
+<h2 class="category-title"
+    data-en="SWEET DO"
+    data-ar="حلويات دو">
+
+    SWEET DO
+
+</h2>
+
+<section class="three-images">
+
+    <div class="dessert-card">
+        <img src="photo/image copy.png" alt="Fruity Cake">
+        <div class="card-info">
+            <span class="your-text">29 SAR</span>
+            <span class="your-text" data-en="Fruity Cake" data-ar="فروتي كيك">Fruity Cake</span>
+        </div>
+    </div>
+
+    <div class="dessert-card">
+        <img src="photo/image copy 2.png" alt="Classic Tiramisu">
+        <div class="card-info">
+            <span class="your-text">29 SAR</span>
+            <span class="your-text" data-en="Classic Tiramisu" data-ar="تيراميسو كلاسيك">Classic Tiramisu</span>
+        </div>
+    </div>
+
+    <div class="dessert-card">
+        <img src="photo/image copy 3.png" alt="Mini Dou">
+        <div class="card-info">
+            <span class="your-text">11 SAR</span>
+            <span class="your-text" data-en="Mini Dou" data-ar="ميني دو">Mini Dou</span>
+        </div>
+    </div>
+
+    <div class="dessert-card">
+        <img src="photo/image copy 4.png" alt="Tarte Dou">
+        <div class="card-info">
+            <span class="your-text">28 SAR</span>
+            <span class="your-text" data-en="Tarte Dou" data-ar="تارت دو">Tarte Dou</span>
+        </div>
+    </div>
+
+    <div class="dessert-card">
+        <img src="photo/image copy 5.png" alt="Matilda Cake">
+        <div class="card-info">
+            <span class="your-text">27 SAR</span>
+            <span class="your-text" data-en="Matilda Cake" data-ar="كيكة ماتيلدا">Matilda Cake</span>
+        </div>
+    </div>
+
+    <div class="dessert-card">
+        <img src="photo/image copy 6.png" alt="Classic Cheese Madrid">
+        <div class="card-info">
+            <span class="your-text">28 SAR</span>
+            <span class="your-text" data-en="Classic Cheese Madrid" data-ar="تشيز كيك كلاسيك مدريد">CLASSIC CHEESE MADRID</span>
+        </div>
+    </div>
+
+</section>
+
+<!-- SPECIAL DRINKS -->
+
+<h2 class="category-title"
+    data-en="SPECIAL DRINKS"
+    data-ar="المشروبات الخاصة">
+
+    SPECIAL DRINKS
+
+</h2>
+
+<section class="three-images">
+
+    <div class="dessert-card">
+        <img src="photo/image copy 7.png" alt="Matcha Classic">
+        <div class="card-info">
+            <span class="your-text">25 SAR</span>
+            <span class="your-text" data-en="Matcha Classic" data-ar="ماتشا كلاسيك">Matcha Classic</span>
+        </div>
+    </div>
+
+    <div class="dessert-card">
+        <img src="photo/image copy 8.png" alt="Alfredo Espresso">
+        <div class="card-info">
+            <span class="your-text">18 SAR</span>
+            <span class="your-text" data-en="Alfredo Espresso" data-ar="ألفريدو إسبريسو">Alfredo espresso</span>
+        </div>
+    </div>
+
+    <div class="dessert-card">
+        <img src="photo/image copy 9.png" alt="Blue Matcha">
+        <div class="card-info">
+            <span class="your-text">27 SAR</span>
+            <span class="your-text" data-en="Blue Matcha" data-ar="ماتشا بلو">Blue Matcha</span>
+        </div>
+    </div>
+
+    <div class="dessert-card">
+        <img src="photo/image copy 11.png" alt="Matcha Salted Caramel">
+        <div class="card-info">
+            <span class="your-text">26 SAR</span>
+            <span class="your-text" data-ar="ماتشا سالتد كراميل" data-en="Matcha Salted Caramel">Matcha Salted Caramel</span>
+        </div>
+    </div>
+
+    <div class="dessert-card">
+        <img src="photo/image copy 13.png" alt="Do Drink">
+        <div class="card-info">
+            <span class="your-text">25 SAR</span>
+            <span class="your-text" data-en="Do Drink" data-ar="دو درينك">Do Drink</span>
+        </div>
+    </div>
+
+</section>
+
+<!-- YOUR CREATIONS -->
+
+<h2 class="section-title-center"
+    data-en="Your Creations"
+    data-ar="إبداعاتكم">
+
+    Your Creations
+
+</h2>
+
+<section class="creations-section">
+
+    <div class="creations-track" id="creationsTrack">
+
+        <video class="creation-video" playsinline preload="metadata" autoplay muted loop>
+            <source src="photo/video_2026-11-15_20-38-19.mp4" type="video/mp4">
+        </video>
+
+        <video class="creation-video" playsinline preload="metadata" autoplay muted loop>
+            <source src="photo/video_2026-11-15_20-39-49.mp4" type="video/mp4">
+        </video>
+
+        <video class="creation-video" playsinline preload="metadata" autoplay muted loop>
+            <source src="photo/video_2026-11-15_20-41-22.mp4" type="video/mp4">
+        </video>
+
+        <video class="creation-video" playsinline preload="metadata" autoplay muted loop>
+            <source src="photo/video_2026-11-15_20-42-43.mp4" type="video/mp4">
+        </video>
+
+    </div>
+
+</section>
+
+<!-- FINAL MESSAGE -->
+
+<h2 class="section-title-center"
+    data-en="You're Always Welcome<br><br>Find us in Riyadh, or follow along for the small moments we share daily"
+    data-ar="أنتم دائماً موضع ترحيب<br><br>زورونا في الرياض، وتابعونا لنشارككم أجمل لحظاتنا اليومية.">
+
+    You're Always Welcome
+    <br><br>
+    Find us in Riyadh, or follow along for the small moments we share daily
+
+</h2>
+
+<!-- FOOTER -->
+
+<div class="footer-buttons">
+
+    <a href="https://www.google.com/maps/search/?api=1&query=DO%20I%20DO%20Cafe%2C%20Riyadh"
+       target="_blank"
+       class="location-btn">
+
+       📍 موقعنا على الخريطة
+
+    </a>
+
+    <div class="social-buttons">
+          
+     <a href="https://www.instagram.com/doido.sa/" 
+           target="_blank"
+           class="social-btn">
+             
+           📸 تابعونا على انستغرام
+
+        </a>
+
+        <a href="https://www.tiktok.com/@do.i.do.sa"
+           target="_blank"
+           class="social-btn">
+
+           ♪ تابعونا على تيك توك
+
+        </a>
+
+    </div>
+
+</div>
+
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
+
+<script>
+
+
+
+
+
+
+
+
+
+
+
+/* REPEATED SCROLL ANIMATIONS */
+
+const revealTargets = document.querySelectorAll(
+    ".story-section, .section-title, .section-title-center, .hot-menu, .category-title, .creations-section, .footer-buttons, .dessert-card, .menu-card, .card-info, .your-text"
+);
+
+revealTargets.forEach(element => {
+    element.classList.add("reveal");
+});
+
+const observer = new IntersectionObserver((entries) => {
+
+    entries.forEach(entry => {
+
+        if (entry.isIntersecting) {
+
+            entry.target.classList.add("is-visible");
+
+        } else {
+
+            entry.target.classList.remove("is-visible");
+
+        }
+
+    });
+
+}, {
+    threshold: 0.15
+});
+
+revealTargets.forEach(element => {
+    observer.observe(element);
+});
+
+
+
+/* =========================================
+   LANGUAGE MENU
+========================================= */
+
+function toggleLanguageMenu() {
+
+    document.getElementById("languageOptions")
+        .classList.toggle("show");
+
+}
+
+/* =========================================
+   CHANGE LANGUAGE
+========================================= */
+
+function changeLanguage(lang) {
+
+    document.documentElement.lang = lang;
+
+    document.documentElement.dir =
+        lang === "ar" ? "rtl" : "ltr";
+
+    document.body.classList.toggle(
+        "arabic",
+        lang === "ar"
+    );
+
+    document.getElementById("currentLanguage").textContent =
+        lang.toUpperCase();
+
+    document.querySelectorAll("[data-en][data-ar]").forEach(element => {
+
+        element.innerHTML =
+            element.getAttribute("data-" + lang);
+
+    });
+
+    localStorage.setItem("siteLanguage", lang);
+
+    document.getElementById("languageOptions")
+        .classList.remove("show");
+
+}
+
+/* =========================================
+   RESTORE SAVED LANGUAGE
+========================================= */
+
+window.addEventListener("DOMContentLoaded", function() {
+
+    const savedLanguage =
+        localStorage.getItem("siteLanguage") || "en";
+
+    changeLanguage(savedLanguage);
+
+});
+
+/* =========================================
+   CLOSE LANGUAGE MENU OUTSIDE
+========================================= */
+
+document.addEventListener("click", function(event) {
+
+    const menu = document.querySelector(".language-menu");
+
+    if (!menu.contains(event.target)) {
+
+        document.getElementById("languageOptions")
+            .classList.remove("show");
+
+    }
+
+});
+
+/* =========================================
+   SCROLL PROGRESS + HEADER
+========================================= */
+
+const progress =
+    document.getElementById("scrollProgress");
+
+const topButton =
+    document.getElementById("backToTop");
+
+const header =
+    document.querySelector(".header");
+
+function updateScrollUI() {
+
+    const scrollable =
+        document.documentElement.scrollHeight - window.innerHeight;
+
+    const percent = scrollable > 0
+        ? (window.scrollY / scrollable) * 100
+        : 0;
+
+    progress.style.width = percent + "%";
+
+    header.classList.toggle(
+        "scrolled",
+        window.scrollY > 50
+    );
+
+    topButton.classList.toggle(
+        "visible",
+        window.scrollY > 500
+    );
+
+}
+
+window.addEventListener(
+    "scroll",
+    updateScrollUI,
+    { passive: true }
+);
+
+updateScrollUI();
+
+/* =========================================
+   BACK TO TOP
+========================================= */
+
+topButton.addEventListener("click", () => {
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+});
+
+/* =========================================
+   SCROLL REVEAL
+   يظهر العنصر عند الوصول إليه
+   مرة واحدة فقط
+========================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const revealTargets = document.querySelectorAll(
+
+        ".story-image, .story-content, " +
+        ".section-title, .section-title-center, " +
+        ".category-title, " +
+        ".menu-card, " +
+        ".dessert-card, " +
+        ".creation-video, " +
+        ".footer-buttons"
+
+    );
+
+    /* ADD REVEAL CLASS */
+
+    revealTargets.forEach((element, index) => {
+
+        element.classList.add("reveal");
+
+        /* STAGGER DELAY */
+
+        const parent = element.parentElement;
+
+        const siblings = Array.from(parent.children)
+            .filter(child =>
+                child.matches(
+                    ".menu-card, .dessert-card, .creation-video"
+                )
+            );
+
+        if (siblings.length > 1) {
+
+            const siblingIndex = siblings.indexOf(element);
+
+            element.style.setProperty(
+                "--reveal-delay",
+                `${siblingIndex * 110}ms`
+            );
+
+        }
+
+    });
+
+    /* INTERSECTION OBSERVER */
+
+    if ("IntersectionObserver" in window) {
+
+        const observer = new IntersectionObserver(
+
+            (entries, observer) => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.classList.add("is-visible");
+
+                        /* STOP OBSERVING AFTER REVEAL */
+
+                        observer.unobserve(entry.target);
+
+                    }
+
+                });
+
+            },
+
+            {
+                threshold: 0.12,
+                rootMargin: "0px 0px -40px 0px"
+            }
+
+        );
+
+        revealTargets.forEach(element => {
+
+            observer.observe(element);
+
+        });
+
+    } else {
+
+        revealTargets.forEach(element => {
+
+            element.classList.add("is-visible");
+
+        });
+
+    }
+
+});
+
+/* =========================================
+   VIDEO PERFORMANCE
+========================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    if ("IntersectionObserver" in window) {
+
+        const videoObserver = new IntersectionObserver(
+
+            entries => {
+
+                entries.forEach(entry => {
+
+                    const video = entry.target;
+
+                    if (entry.isIntersecting) {
+
+                        const playPromise = video.play();
+
+                        if (playPromise?.catch) {
+                            playPromise.catch(() => {});
+                        }
+
+                    } else {
+
+                        video.pause();
+
+                    }
+
+                });
+
+            },
+
+            {
+                threshold: 0.15
+            }
+
+        );
+
+        document.querySelectorAll("video").forEach(video => {
+
+            videoObserver.observe(video);
+
+        });
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
